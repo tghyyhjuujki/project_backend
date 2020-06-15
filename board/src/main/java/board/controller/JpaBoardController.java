@@ -24,7 +24,7 @@ import board.service.JpaBoardService;
 
 
 @Controller
-@CrossOrigin(origins = {"*"}) 
+@CrossOrigin(origins = "*") 
 public class JpaBoardController {
 
 	@Autowired
@@ -51,11 +51,10 @@ public class JpaBoardController {
 //		return "/board/jpaBoardWrite";
 //	}
 
-	@RequestMapping(value = "/api/store_list", method = RequestMethod.POST)
-	public String insertBoard(BoardEntity board, MultipartHttpServletRequest request) throws Exception {
-		jpaBoardService.saveBoard(board, request);
-		return "redirect:/jpa/board";
-	}
+//	@RequestMapping(value = "/api/store_list", method = RequestMethod.POST)
+//	public void insertBoard(BoardEntity board, MultipartHttpServletRequest request) throws Exception {
+//		jpaBoardService.saveBoard(board, request);
+//	}
 
 //	@RequestMapping(value = "/jpa/board/{boardIdx}", method = RequestMethod.GET)
 //	public ModelAndView openBoardDetail(@PathVariable("boardIdx") int boardIdx) throws Exception {

@@ -9,27 +9,63 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import board.common.FileUtils;
+import board.entity.BestMenu;
 import board.entity.BoardEntity;
 import board.entity.BoardFileEntity;
+import board.entity.TemplateEntity;
+import board.repository.JpaBestMenuRepository;
 import board.repository.JpaBoardRepository;
+import board.repository.JpaTemplateRepository;
 
 @Service
 public class JpaBoardServiceImpl implements JpaBoardService {
 	
 	@Autowired
 	JpaBoardRepository jpaBoardRepository;
+	
+	@Autowired
+	JpaBestMenuRepository jpaBestMenuRepository;
+	
+	@Autowired
+	JpaTemplateRepository jpaTemplateRepository;
 
 	@Autowired 
 	FileUtils fileUtils;
 	
-	@Override
-	public List<BoardEntity> selectFavorite() throws Exception {
-		return jpaBoardRepository.findAllByHitCntGreaterThanEqual(5);
-	}	
+//	@Override
+//	public List<BoardEntity> selectFavorite() throws Exception {
+//		return jpaBoardRepository.findAllByHitCntGreaterThanEqual(5);
+//	}	
 	
 	@Override
 	public List<BoardEntity> selectBoardList() throws Exception {
 		return jpaBoardRepository.findAllByOrderByBoardIdxDesc();
+	}
+	
+	//BestMenu
+	@Override
+	public List<BestMenu> selectBestMenuList() throws Exception {
+		return jpaBestMenuRepository.findAllByOrderByIdDesc();
+	}
+	@Override
+	public void saveBestMenu(BestMenu bestMenu) throws Exception {
+		jpaBestMenuRepository.save(bestMenu);		
+	}
+	
+	//Template
+	@Override
+	public List<TemplateEntity> selectTemplateList() throws Exception {
+		return jpaTemplateRepository.findAllByOrderByIdDesc();
+	}
+	@Override
+	public void saveTemplate(TemplateEntity templateEntity) throws Exception {
+		jpaTemplateRepository.save(templateEntity);		
+	}
+
+	
+	@Override
+	public List<BoardEntity> selectBoardListStoreNum(String storeNumber) throws Exception {
+		return jpaBoardRepository.findAllByStoreNumber(storeNumber);
 	}
 
 	// 	save = insert, update
@@ -43,7 +79,12 @@ public class JpaBoardServiceImpl implements JpaBoardService {
 		if (!CollectionUtils.isEmpty(files)) {
 			board.setFileInfoList(files);
 		}
-		
+		//jpaBoardRepository.findAllByStoreNumber(storeNumber);
+		jpaBoardRepository.save(board);		
+	}
+	
+	@Override
+	public void saveFirstBoard(BoardEntity board) throws Exception {
 		jpaBoardRepository.save(board);		
 	}
 
@@ -52,9 +93,6 @@ public class JpaBoardServiceImpl implements JpaBoardService {
 		Optional<BoardEntity> optional = jpaBoardRepository.findById(boardIdx);
 		if (optional.isPresent()) {
 			BoardEntity board = optional.get();
-			
-			//	게시판 상세 정보에서 조회 회수를 1 증가해서 업데이트
-			board.setHitCnt(board.getHitCnt() + 1);
 			jpaBoardRepository.save(board);
 			
 			return board;			

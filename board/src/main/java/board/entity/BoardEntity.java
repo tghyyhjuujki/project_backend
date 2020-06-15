@@ -29,26 +29,19 @@ public class BoardEntity {
 	private String category;
 	private String store_name;
 	private String store_address;
-	private String store_number;
+	private String storeNumber;
 	private String store_explanation;
-	private String store_image1;
-	private String store_image2;
-	private String store_image3;
-	private String store_image4;
+	private String storeImage1;
+	private String storeImage2;
+	private String storeImage3;
+	private String storeImage4;
 	private String store_open_time;
 	private String store_end_time;
 	private String store_coupon;
-	
-	@Column(nullable = false)
-	private int hitCnt;
-
-	@Column(nullable = false)
-	private String creatorId;
 
 	// 초기값을 설정 ==> 특정 DB에 의존하지 않도록 하기 위해
-	@Column(nullable = false)
 	private LocalDateTime createdDatetime = LocalDateTime.now();
-
+	private String CreatorId;
 	private String updaterId;
 
 	private LocalDateTime updatedDatetime;

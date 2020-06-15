@@ -12,6 +12,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import board.entity.BoardEntity;
 import board.entity.BoardFileEntity;
 
 @Component
@@ -66,10 +67,12 @@ public class FileUtils {
 					
 					// 파일 정보를 fileInfoList에 추가
 					BoardFileEntity boardFile = new BoardFileEntity();
+					BoardEntity board = new BoardEntity();
 					// boardFile.setBoardIdx(boardIdx);
 					boardFile.setFileSize(file.getSize());
 					boardFile.setOriginalFileName(file.getOriginalFilename());
 					boardFile.setStoredFilePath(storedDir + "/" + storedFileName);
+					board.setStoreImage1(storedDir + "/" + storedFileName);
 					boardFile.setCreatorId("admin");
 					fileInfoList.add(boardFile);					
 					
